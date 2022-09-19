@@ -24,6 +24,7 @@ v4l = {version = "0.13", features = ["v4l2"]}
 ## Topics and Interfaces this Application depends on
 ## Interfaces
 interface-example = { git = "https://github.com/sabaton-rs/interface-example.git", rev="3f7bb15a958bb6c43886d1d874eabc39cd0ecf28"}
+ros_signals = { path = "../ros_signals"}
 
 ## Topics
 
