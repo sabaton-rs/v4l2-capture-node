@@ -1,6 +1,6 @@
 #![forbid(unsafe_code)]
 use clap::{arg, command};
-use v4l2_capture_node::example_node_main;
+use v4l2_capture_node::{example_node_main, Params};
 use tracing::Level;
 fn main() {
     let matches = command!()
@@ -17,7 +17,24 @@ fn main() {
             )
             .required(false)
         )
-        
+        .arg(
+            arg!(
+                -g --groupname ... "Set the group name"
+            )
+            .required(false)
+        )
+        .arg(
+            arg!(
+                -i --instancename ... "Set the instance name"
+            )
+            .required(false)
+        )
+        .arg(
+            arg!(
+                -v --videodev ... "The video device to use (default is /dev/video0)"
+            )
+            .required(false)
+        )
         .arg(
             arg!(
                 -f --debugfilter "List of debug spans to filter on. The default is to show all spans"
@@ -47,6 +64,11 @@ fn main() {
         Process the command line arguments here and create a configuration structure that is then passed into the main function.
      */
     
+    let params = Params {
+        maybe_group: matches.value_of("groupname"),
+        maybe_instance: matches.value_of("instancename"),
+        video_dev: matches.value_of("videodev").map(|s|s.to_string()).unwrap_or("/dev/video0".to_owned()),
+    };
 
-    example_node_main().expect("Error running main");
+    example_node_main(&params).expect("Error running main");
 }
